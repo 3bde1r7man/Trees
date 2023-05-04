@@ -42,7 +42,7 @@ void MaxHeapify(vector<T>& arr) {
 template <class T>
 void MinHeapify(vector<T>& arr) {
     int child = arr.size() - 1;
-    int parent = (arr.size() / 2) - 1;
+    int parent = (arr.size() - 1) / 2;
     while (arr[child] < arr[parent])
     {
         swap(arr[child], arr[parent]);
