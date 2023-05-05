@@ -129,6 +129,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Trees.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Trees.h" />
