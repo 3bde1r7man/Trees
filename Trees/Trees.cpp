@@ -174,6 +174,7 @@ void Menu::minHeapMenu() {
     int n;
     minArr.clear();
     readFromFile(minArr);
+    build_min_heap(minArr);
     while (true)
     {
         cout << "1. Add student\n";
@@ -207,6 +208,7 @@ void Menu::maxHeapMenu() {
     int n;
     maxArr.clear();
     readFromFile(maxArr);
+    build_max_heap(maxArr);
     while (true)
     {
         cout << "1. Add student\n";
