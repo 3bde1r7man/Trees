@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <fstream>
+#include<string>
 
 using namespace std;
 
@@ -11,9 +13,26 @@ private:
 	string Name, Dept;
 public:
 	Student(int id, float gpa, string name, string dept): ID(id), GPA(gpa), Name(name), Dept(dept) {}
-	bool operator>(Student& other) {
+	
+    bool operator>(Student& other) {
 		return GPA > other.GPA;
 	}
+    
+    string getName() {
+        return Name;
+    }
+    
+    float getGPA() {
+        return GPA;
+    }
+    
+    string getDept() {
+        return Dept;
+    }
+
+    int getID() {
+        return ID;
+    }
 
 	bool operator<(Student& other) {
 		return GPA < other.GPA;
@@ -110,6 +129,7 @@ void build_min_heap(vector<T>& arr) {
 }
 
 
+
 template <class T>
 void heapSort(vector<T>& arr, bool flag) {
     int n = arr.size();
@@ -173,9 +193,47 @@ public:
     }
 
 
+    void saveAtFile(vector<Student>& arr) {
+        fstream dataFile;
+        dataFile.open("data.txt", ios::out);
+        for (int i = 0; i < arr.size(); i++) {
+            dataFile << arr[i].getID();
+            dataFile << endl;
+            dataFile << arr[i].getName();
+            dataFile << endl;
+            dataFile << arr[i].getGPA();
+            dataFile << endl;
+            dataFile << arr[i].getDept();
+            dataFile << endl;
+        }
+        dataFile.close();
+    }
+
+    void readFromFile(vector<Student>& arr) {
+        fstream dataFile;
+        string temp;
+        int id;
+        float gpa;
+        string name, dept;
+        dataFile.open("data.txt", ios::in);
+        while (!dataFile.eof() && dataFile.peek() != EOF) {
+            getline(dataFile, temp);
+            id = stoi(temp);
+            getline(dataFile, temp);
+            name = temp;
+            getline(dataFile, temp);
+            gpa = stof(temp);
+            getline(dataFile, temp);
+            dept = temp;
+            arr.push_back(Student(id, gpa, name, dept));
+        }
+        dataFile.close();
+    }
+
+
     void minHeapMenu() {
         int n;
-        
+        readFromFile(minArr);
         while (true)
         {
             cout << "1. Add student\n";
@@ -191,6 +249,7 @@ public:
         case 1:
             addStud(minArr);
             MinHeapify(minArr);
+            saveAtFile(minArr);
             break;
         case 2:
             printAll(minArr, 1);
@@ -205,7 +264,7 @@ public:
     }
     void maxHeapMenu() {
         int n;
-        
+        readFromFile(maxArr);
         while (true)
         {
             cout << "1. Add student\n";
@@ -221,6 +280,7 @@ public:
         case 1:
             addStud(maxArr);
             MaxHeapify(maxArr);
+            saveAtFile(maxArr);
             break;
         case 2:
             printAll(maxArr, 0);
@@ -263,5 +323,8 @@ public:
         }
     }
 };
+
+
+
 
 
