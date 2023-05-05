@@ -233,6 +233,7 @@ public:
 
     void minHeapMenu() {
         int n;
+        minArr.clear();
         readFromFile(minArr);
         while (true)
         {
@@ -262,8 +263,10 @@ public:
         }
         minHeapMenu();
     }
+
     void maxHeapMenu() {
         int n;
+        maxArr.clear();
         readFromFile(maxArr);
         while (true)
         {
