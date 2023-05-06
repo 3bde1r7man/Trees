@@ -119,6 +119,11 @@ void Menu::mainMenu() {
     }
     switch (n)
     {
+    case 2:{
+        StudentAVL *avl = new StudentAVL;
+        avl->AVLMenu();
+    }
+
     case 3:
         minHeapMenu();
         break;
