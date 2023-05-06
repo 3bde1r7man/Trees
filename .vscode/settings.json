@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "*.blade.php": "blade",
+        "*.php": "php",
+        "*.html": "html",
+        "xiosbase": "cpp",
+        "ostream": "cpp",
+        "string": "cpp",
+        "fstream": "cpp",
+        "iosfwd": "cpp"
+    }
+}

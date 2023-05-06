@@ -268,3 +268,297 @@ void Menu::printAll(vector<Student>& arr, bool sort) {
         cout << arr[i] << '\n';
     }
 }
+
+StudentAVL::StudentAVL():root(nullptr),size(0){
+    fstream dataFile;
+    string temp;
+    int id;
+    float gpa;
+    string name, dept;
+    dataFile.open("data.txt", ios::in);
+    while (!dataFile.eof() && dataFile.peek() != EOF) {
+        getline(dataFile, temp);
+        id = stoi(temp);
+        getline(dataFile, temp);
+        name = temp;
+        getline(dataFile, temp);
+        gpa = stof(temp);
+        getline(dataFile, temp);
+        dept = temp;
+        root = insert(root,id, gpa, name, dept);
+    }
+    dataFile.close();
+}
+
+int StudentAVL::getHeight(StudentNode *node)
+{
+    if (node == nullptr) {
+        return 0;
+    }
+    return node->height;
+}
+
+int StudentAVL::getBalanceFactor(StudentNode *node)
+{
+    if (node == nullptr) {
+        return 0;
+    }
+    return getHeight(node->left) - getHeight(node->right);
+}
+
+int StudentAVL::AVLSize()
+{
+    return size;
+}
+
+StudentNode* StudentAVL::insert(StudentNode* root,int id,float GPA,string name,string dp)
+{
+        if (root == nullptr) {
+        StudentNode* newNode = new StudentNode;
+        newNode->id = id;
+        newNode->GPA = GPA;
+        newNode->name = name;
+        newNode->dp = dp;
+        newNode->height = 1;
+        size++;
+        return newNode;
+    }
+    if (id < root->id) {
+        root->left = insert(root->left, id, GPA, name, dp);
+    } else {
+        root->right = insert(root->right, id, GPA, name, dp);
+    }
+    root->height = 1 + std::max(getHeight(root->left), getHeight(root->right));
+    int balanceFactor = getBalanceFactor(root);
+    if (balanceFactor > 1 && id < root->left->id) {
+        return rotateRight(root);
+    }
+    if (balanceFactor < -1 && id > root->right->id) {
+        return rotateLeft(root);
+    }
+    if (balanceFactor > 1 && id > root->left->id) {
+        root->left = rotateLeft(root->left);
+        return rotateRight(root);
+    }
+    if (balanceFactor < -1 && id < root->right->id) {
+        root->right = rotateRight(root->right);
+        return rotateLeft(root);
+    }
+    return root;
+}
+
+StudentNode* StudentAVL::rotateRight(StudentNode *node)
+{
+    StudentNode* newRoot = node->left;
+    node->left = newRoot->right;
+    newRoot->right = node;
+    node->height = 1 + max(getHeight(node->left), getHeight(node->right));
+    newRoot->height = 1 + max(getHeight(newRoot->left), getHeight(newRoot->right));
+    return newRoot;
+}
+
+StudentNode* StudentAVL::rotateLeft(StudentNode *node)
+{
+    StudentNode* newRoot = node->right;
+    node->right = newRoot->left;
+    newRoot->left = node;
+    node->height = 1 + max(getHeight(node->left), getHeight(node->right));
+    newRoot->height = 1 + max(getHeight(newRoot->left), getHeight(newRoot->right));
+    return newRoot;
+}
+
+
+StudentNode* StudentAVL::findMin(StudentNode* root) {
+    while (root->left != nullptr) {
+        root = root->left;
+    }
+    return root;
+}
+
+StudentNode* StudentAVL::deleteNode(StudentNode* root, int id) {
+    if (root == nullptr) {
+        return root;
+    }
+    if (id < root->id) {
+        root->left = deleteNode(root->left, id);
+    } else if (id > root->id) {
+        root->right = deleteNode(root->right, id);
+    } else {
+        if (root->left == nullptr && root->right == nullptr) {
+            delete root;
+            root = nullptr;
+        } else if (root->left == nullptr) {
+            StudentNode* temp = root;
+            root = root->right;
+            delete temp;
+        } else if (root->right == nullptr) {
+            StudentNode* temp = root;
+            root = root->left;
+            delete temp;
+        } else {
+            StudentNode* temp = findMin(root->right);
+            root->id = temp->id;
+            root->right = deleteNode(root->right, temp->id);
+        }
+    }
+    if (root == nullptr) {
+        return root;
+    }
+    root->height = 1 + std::max(getHeight(root->left), getHeight(root->right));
+    int balanceFactor = getBalanceFactor(root);
+    if (balanceFactor > 1 && getBalanceFactor(root->left) >= 0) {
+        return rotateRight(root);
+    }
+    if (balanceFactor > 1 && getBalanceFactor(root->left) < 0) {
+        root->left = rotateLeft(root->left);
+        return rotateRight(root);
+    }
+    if (balanceFactor < -1 && getBalanceFactor(root->right) <= 0) {
+        return rotateLeft(root);
+    }
+    if (balanceFactor < -1 && getBalanceFactor(root->right) > 0) {
+        root->right = rotateRight(root->right);
+        return rotateLeft(root);
+    }
+    return root;
+}
+
+StudentNode *StudentAVL::search(StudentNode *root, int id)
+{
+    if (root == nullptr) {
+        return nullptr; // id not found
+    }
+    if (id == root->id) {
+        return root; // id found
+    }
+    if (id < root->id) {
+        return search(root->left, id); // search in left subtree
+    } else {
+        return search(root->right, id); // search in right subtree
+    }
+}
+
+void StudentAVL::inorder(StudentNode *root)
+{
+        if (root == nullptr) {
+            return ;
+        }
+        inorder(root->left);
+        cout<<"["<<root->id<<","<<root->name<<","<<root->GPA<<","<<root->dp<<"]"<<endl;
+        inorder(root->right);
+}
+
+void StudentAVL::saveInFile(StudentNode *root, bool& firstTime, fstream& dataFile) {
+    if (firstTime) {
+        dataFile.open("data.txt", ios::out);
+        firstTime = false;
+    }
+    if (root == nullptr) {
+        return;
+    }
+    saveInFile(root->left, firstTime, dataFile);
+    dataFile << root->id << endl;
+    dataFile << root->name << endl;
+    dataFile << root->GPA << endl;
+    dataFile << root->dp << endl;
+    saveInFile(root->right, firstTime, dataFile);
+}
+
+void StudentAVL::print()
+{
+    inorder(root);
+}
+
+void StudentAVL::addStudent()
+{
+    int id;
+    float gpa;
+    string name, dept;
+    cout << "Id: ";
+    cin >> id;
+    cout << "Name: ";
+    cin >> name;
+    cout << "GPA: ";
+    cin >> gpa;
+    cout << "Department: ";
+    cin >> dept;
+    StudentNode *student = search(root, id);
+    if(student==nullptr){
+        insert(root,id,gpa,name,dept);
+        cout << "The student is added.\n";
+    }else{
+        cout << "ID already in use";
+    }
+
+}
+
+void StudentAVL::removeStudent()
+{
+    int id;
+    cout << "ID: ";
+    cin >> id;
+    StudentNode *student = search(root, id);
+    if(student==nullptr){
+        cout << "Student Not Found!.." << endl;
+    }else{
+        deleteNode(student, id);
+        cout << "Student Deleted Successfully";
+    }
+    
+}
+
+void StudentAVL::searchStudent()
+{
+    int id;
+    cout << "ID: ";
+    cin >> id;
+    StudentNode *student = search(root, id);
+    if(student == nullptr){}
+}
+
+void StudentAVL::printStudents()
+{
+    cout << "Size of Students is: " << AVLSize()<<endl;
+    print();
+}
+
+void StudentAVL::AVLMenu()
+{
+    int userIn=0;
+    while(userIn>5 || userIn<1){
+        cout << "1-Add student\n";
+        cout << "2-Remove student\n";
+        cout << "3-Search student\n";
+        cout << "4-Print All students\n";
+        cout << "5-Return to main menu\n";
+        cout << "--> ";
+        cin >> userIn;
+    }
+    switch (userIn)
+    {
+    case 1:
+        addStudent();
+        break;
+    case 2:
+        removeStudent();
+        break;
+    case 3:
+        searchStudent();
+        break;
+    case 4:
+        printStudents();
+        break;
+    case 5:{
+        bool firstTime = true; 
+        fstream dataFile;
+        saveInFile(root, firstTime,dataFile);
+        dataFile.close();
+        break;
+        }
+    default:
+        cout << "Enter Valid Input!.."<<endl;
+        return;
+    }
+}
+
+

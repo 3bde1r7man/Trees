@@ -99,3 +99,42 @@ public:
     void printAll(vector<Student>& arr, bool sort);
 };
 
+
+struct StudentNode
+{
+    StudentNode *right;
+    StudentNode *left;
+    int id;
+    float GPA;
+    string name;
+    string dp;
+    int height;
+    StudentNode() : right(nullptr), left(nullptr){};
+};
+
+class StudentAVL
+{
+private:
+    StudentNode *root;
+    int size;
+
+public:
+    StudentAVL();
+    int getHeight(StudentNode *node);
+    int getBalanceFactor(StudentNode *node);
+    int AVLSize();
+    StudentNode *insert(StudentNode *root, int id, float GPA, string name, string dp);
+    StudentNode *rotateRight(StudentNode *node);
+    StudentNode *rotateLeft(StudentNode *node);
+    StudentNode *findMin(StudentNode *root);
+    StudentNode *deleteNode(StudentNode *root, int id);
+    StudentNode *search(StudentNode *root, int key);
+    void inorder(StudentNode *root);
+    void saveInFile(StudentNode *root,bool& firstTime, fstream& dataFile);
+    void print();
+    void addStudent();
+    void removeStudent();
+    void searchStudent();
+    void printStudents();
+    void AVLMenu();
+};
