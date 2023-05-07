@@ -119,11 +119,15 @@ void Menu::mainMenu() {
     }
     switch (n)
     {
-    case 2:{
-        StudentAVL *avl = new StudentAVL;
-        avl->AVLMenu();
-    }
+    case 1:
+    {
 
+    }
+    case 2:
+    {
+        StudentAVL* avl = new StudentAVL;
+        avl->AVLMenu();
+    } 
     case 3:
         minHeapMenu();
         break;
@@ -492,7 +496,7 @@ void StudentAVL::addStudent()
         insert(root,id,gpa,name,dept);
         cout << "The student is added.\n";
     }else{
-        cout << "ID already in use";
+        cout << "ID already in use\n";
     }
 
 }
@@ -506,8 +510,9 @@ void StudentAVL::removeStudent()
     if(student==nullptr){
         cout << "Student Not Found!.." << endl;
     }else{
-        deleteNode(student, id);
-        cout << "Student Deleted Successfully";
+        
+        root = deleteNode(root, id);
+        cout << "Student Deleted Successfully\n";
     }
     
 }

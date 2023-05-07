@@ -187,85 +187,85 @@ public:
 
 };
 
-int main()
-{
-    BST a;
-    a.insert(10,"Youssed","IT",3);
-    a.insert(6,"ahmed","CS",2.5);
-    a.insert(5,"abdo","AI",3.5);
-    a.insert(7,"mohamed","IS",2);
-    a.insert(9,"pop","IT",1.5);
-    while(true)
-    {
-        int choice = 0;
-        cout<<"1. Add student\n2. Remove student\n3. Search student\n4. Print All\n5. Return to main menu\n";
-        cin>>choice ;
-        if(choice == 1)
-        {
-            int id;
-            string name;
-            string department;
-            float GPA;
-            cout<<"please enter the id : ";
-            cin >> id ;
-            while(id > 100 || id <= 0)
-            {
-                cout<<"please enter the id in range [0-100] : ";
-                cin >> id ;
-            }
-            while(a.search(id))
-            {
-                cout<<" the id is already exist choose another id\n";
-                cin >> id ;
-            }
-            cout<<"please enter the name : ";
-            cin >> name ;
-            cout<<"please enter the department : ";
-            cin >> department ;
-            transform(department.begin(), department.end(), department.begin(), ::toupper);
-            while (department != "CS" || department != "AI" || department != "IS" || department != "IT")
-            {
-                cout<<"Please enter appropriate department : \n";
-                cin >> department ;
-                transform(department.begin(), department.end(), department.begin(), ::toupper);
-            }
-            
-            cout<<"please enter the GPA : ";
-            cin >> GPA ;
-            while (GPA < 0 || GPA > 4)
-            {
-                cout<<"Please enter appropriate GPA : \n";
-                cin >> GPA ;
-            }
-            a.insert(id,name,department,GPA);
-        }
-        else if (choice == 2)
-        {
-            int id;
-            cout<<"please enter the id : ";
-            cin >> id ;
-            // if(!a.search(id))
-            // {
-            //     continue;
-            // }
-            a.removeStudent(id);
-        }
-        else if (choice == 3)
-        {
-            int id;
-            cout<<"please enter the id : ";
-            cin >> id ;
-            a.search(id);
-        }
-        else if (choice == 4)
-        {
-            a.print();
-        }
-        else
-        {
-            exit(0);
-        }
-    }
-    
-    
-}
+//int main()
+//{
+//    BST a;
+//    a.insert(10,"Youssed","IT",3);
+//    a.insert(6,"ahmed","CS",2.5);
+//    a.insert(5,"abdo","AI",3.5);
+//    a.insert(7,"mohamed","IS",2);
+//    a.insert(9,"pop","IT",1.5);
+//    while(true)
+//    {
+//        int choice = 0;
+//        cout<<"1. Add student\n2. Remove student\n3. Search student\n4. Print All\n5. Return to main menu\n";
+//        cin>>choice ;
+//        if(choice == 1)
+//        {
+//            int id;
+//            string name;
+//            string department;
+//            float GPA;
+//            cout<<"please enter the id : ";
+//            cin >> id ;
+//            while(id > 100 || id <= 0)
+//            {
+//                cout<<"please enter the id in range [0-100] : ";
+//                cin >> id ;
+//            }
+//            while(a.search(id))
+//            {
+//                cout<<" the id is already exist choose another id\n";
+//                cin >> id ;
+//            }
+//            cout<<"please enter the name : ";
+//            cin >> name ;
+//            cout<<"please enter the department : ";
+//            cin >> department ;
+//            transform(department.begin(), department.end(), department.begin(), ::toupper);
+//            while (department != "CS" || department != "AI" || department != "IS" || department != "IT")
+//            {
+//                cout<<"Please enter appropriate department : \n";
+//                cin >> department ;
+//                transform(department.begin(), department.end(), department.begin(), ::toupper);
+//            }
+//            
+//            cout<<"please enter the GPA : ";
+//            cin >> GPA ;
+//            while (GPA < 0 || GPA > 4)
+//            {
+//                cout<<"Please enter appropriate GPA : \n";
+//                cin >> GPA ;
+//            }
+//            a.insert(id,name,department,GPA);
+//        }
+//        else if (choice == 2)
+//        {
+//            int id;
+//            cout<<"please enter the id : ";
+//            cin >> id ;
+//            // if(!a.search(id))
+//            // {
+//            //     continue;
+//            // }
+//            a.removeStudent(id);
+//        }
+//        else if (choice == 3)
+//        {
+//            int id;
+//            cout<<"please enter the id : ";
+//            cin >> id ;
+//            a.search(id);
+//        }
+//        else if (choice == 4)
+//        {
+//            a.print();
+//        }
+//        else
+//        {
+//            exit(0);
+//        }
+//    }
+//    
+//    
+//}

@@ -1,10 +1,6 @@
-#include "Trees.cpp"
+#include "Trees.h"
 
 
 int main() {
-	StudentAVL *main= new StudentAVL;
-	while(true){	
-	main->AVLMenu();
-	}
-
+	Menu mainMenu;
 }
