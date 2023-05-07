@@ -104,38 +104,41 @@ void heapSort(vector<T>& arr, bool flag) {
 }
 
 void Menu::mainMenu() {
-    int n;
-    while (true)
-    {
-        cout << "1. BST\n";
-        cout << "2. AVL\n";
-        cout << "3. Min Heap\n";
-        cout << "4. Max Heap\n";
-        cout << "5. Exit Program\n";
-        cout << "--> ";
-        cin >> n;
-        if (n >= 1 && n < 6)
-            break;
-    }
-    switch (n)
-    {
-    case 2:{
-        StudentAVL *avl = new StudentAVL;
-        avl->AVLMenu();
-        break;
-    }
+    while (true){
 
-    case 3:
-        minHeapMenu();
-        break;
-    case 4:
-        maxHeapMenu();
-        break;
-    case 5:
-        exit(0);
-        break;
-    default:
-        break;
+        int n;
+        while (true)
+        {
+            cout << "1. BST\n";
+            cout << "2. AVL\n";
+            cout << "3. Min Heap\n";
+            cout << "4. Max Heap\n";
+            cout << "5. Exit Program\n";
+            cout << "--> ";
+            cin >> n;
+            if (n >= 1 && n < 6)
+                break;
+        }
+        switch (n)
+        {
+        case 2:{
+            StudentAVL *avl = new StudentAVL;
+            avl->AVLMenu();
+            break;
+        }
+
+        case 3:
+            minHeapMenu();
+            break;
+        case 4:
+            maxHeapMenu();
+            break;
+        case 5:
+            exit(0);
+            break;
+        default:
+            break;
+        }
     }
 }
 
