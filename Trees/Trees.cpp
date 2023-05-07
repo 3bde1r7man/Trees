@@ -119,15 +119,12 @@ void Menu::mainMenu() {
     }
     switch (n)
     {
-    case 1:
-    {
-
-    }
-    case 2:
-    {
-        StudentAVL* avl = new StudentAVL;
+    case 2:{
+        StudentAVL *avl = new StudentAVL;
         avl->AVLMenu();
-    } 
+        break;
+    }
+
     case 3:
         minHeapMenu();
         break;
@@ -496,7 +493,7 @@ void StudentAVL::addStudent()
         insert(root,id,gpa,name,dept);
         cout << "The student is added.\n";
     }else{
-        cout << "ID already in use\n";
+        cout << "ID already in use";
     }
 
 }
@@ -510,9 +507,8 @@ void StudentAVL::removeStudent()
     if(student==nullptr){
         cout << "Student Not Found!.." << endl;
     }else{
-        
         root = deleteNode(root, id);
-        cout << "Student Deleted Successfully\n";
+        cout << "Student Deleted Successfully";
     }
     
 }
@@ -534,40 +530,42 @@ void StudentAVL::printStudents()
 
 void StudentAVL::AVLMenu()
 {
-    int userIn=0;
-    while(userIn>5 || userIn<1){
-        cout << "1-Add student\n";
-        cout << "2-Remove student\n";
-        cout << "3-Search student\n";
-        cout << "4-Print All students\n";
-        cout << "5-Return to main menu\n";
-        cout << "--> ";
-        cin >> userIn;
-    }
-    switch (userIn)
-    {
-    case 1:
-        addStudent();
-        break;
-    case 2:
-        removeStudent();
-        break;
-    case 3:
-        searchStudent();
-        break;
-    case 4:
-        printStudents();
-        break;
-    case 5:{
-        bool firstTime = true; 
-        fstream dataFile;
-        saveInFile(root, firstTime,dataFile);
-        dataFile.close();
-        break;
+    while (true){
+        int userIn=0;
+        while(userIn>5 || userIn<1){
+            cout << "1-Add student\n";
+            cout << "2-Remove student\n";
+            cout << "3-Search student\n";
+            cout << "4-Print All students\n";
+            cout << "5-Return to main menu\n";
+            cout << "--> ";
+            cin >> userIn;
         }
-    default:
-        cout << "Enter Valid Input!.."<<endl;
-        return;
+        switch (userIn)
+        {
+        case 1:
+            addStudent();
+            break;
+        case 2:
+            removeStudent();
+            break;
+        case 3:
+            searchStudent();
+            break;
+        case 4:
+            printStudents();
+            break;
+        case 5:{
+            bool firstTime = true; 
+            fstream dataFile;
+            saveInFile(root, firstTime,dataFile);
+            dataFile.close();
+            return;
+            }
+        default:
+            cout << "Enter Valid Input!.."<<endl;
+            return;
+        }
     }
 }
 
