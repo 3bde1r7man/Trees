@@ -522,7 +522,11 @@ void StudentAVL::searchStudent()
     cout << "ID: ";
     cin >> id;
     StudentNode *student = search(root, id);
-    if(student == nullptr){}
+    if(student == nullptr){
+        cout << "Student Not Found!.." << endl;
+    }else{
+        cout<<"["<<student->id<<", "<<student->name<<", "<<student->dp<<", "<<student->GPA<<"]"<<endl;
+    }
 }
 
 void StudentAVL::printStudents()
