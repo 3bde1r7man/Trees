@@ -2,5 +2,5 @@
 
 
 int main() {
-	Menu mainMenu;
+		Menu mainMenu;
 }
