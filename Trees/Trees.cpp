@@ -515,14 +515,9 @@ void StudentAVL::removeStudent()
     StudentNode* student = search(root, id);
     if (student == nullptr) {
         cout << "Student Not Found!.." << endl;
-<<<<<<< HEAD
-    }else{
+    }else {
         departments[student->dp]--;
         size--;
-=======
-    }
-    else {
->>>>>>> d3dd0b89e441b995d067f47ab77c5e9609606f22
         root = deleteNode(root, id);
         cout << "Student Deleted Successfully";
     }
@@ -545,11 +540,7 @@ void StudentAVL::searchStudent()
 
 void StudentAVL::printStudents()
 {
-<<<<<<< HEAD
     cout << "Print " << AVLSize()<<" Students."<<endl;
-=======
-    cout << "Size of Students is: " << AVLSize() << endl;
->>>>>>> d3dd0b89e441b995d067f47ab77c5e9609606f22
     print();
     cout << "Students per Departments:" << endl;    
     for (map<string, int>::iterator it = departments.begin(); it != departments.end(); it++)
@@ -586,17 +577,8 @@ void StudentAVL::AVLMenu()
         case 4:
             printStudents();
             break;
-<<<<<<< HEAD
-        case 5:{
-=======
-        case 5: {
-            bool firstTime = true;
-            fstream dataFile;
-            saveInFile(root, firstTime, dataFile);
-            dataFile.close();
->>>>>>> d3dd0b89e441b995d067f47ab77c5e9609606f22
+        case 5:
             return;
-        }
         default:
             cout << "Enter Valid Input!.." << endl;
             return;
