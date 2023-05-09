@@ -329,6 +329,8 @@ StudentNode* StudentAVL::insert(StudentNode* root,int id,float GPA,string name,s
         newNode->name = name;
         newNode->dp = dp;
         newNode->height = 1;
+        departments[dp]++;
+
         size++;
         return newNode;
     }
@@ -510,6 +512,8 @@ void StudentAVL::removeStudent()
     if(student==nullptr){
         cout << "Student Not Found!.." << endl;
     }else{
+        departments[student->dp]--;
+        size--;
         root = deleteNode(root, id);
         cout << "Student Deleted Successfully";
     }
@@ -531,8 +535,14 @@ void StudentAVL::searchStudent()
 
 void StudentAVL::printStudents()
 {
-    cout << "Size of Students is: " << AVLSize()<<endl;
+    cout << "Print " << AVLSize()<<" Students."<<endl;
     print();
+    cout << "Students per Departments:" << endl;    
+    for (map<string, int>::iterator it = departments.begin(); it != departments.end(); it++)
+    {
+        cout << it->first << " " << it->second << " Students." << endl;
+    }
+    
 }
 
 void StudentAVL::AVLMenu()
@@ -563,10 +573,6 @@ void StudentAVL::AVLMenu()
             printStudents();
             break;
         case 5:{
-            bool firstTime = true; 
-            fstream dataFile;
-            saveInFile(root, firstTime,dataFile);
-            dataFile.close();
             return;
             }
         default:

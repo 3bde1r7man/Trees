@@ -3,7 +3,7 @@
 #include <vector>
 #include <fstream>
 #include <string>
-
+#include <map>
 using namespace std;
 
 class Student{
@@ -116,6 +116,7 @@ class StudentAVL
 {
 private:
     StudentNode *root;
+    map<string, int> departments;
     int size;
 
 public:
