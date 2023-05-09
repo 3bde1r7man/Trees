@@ -134,11 +134,21 @@ void Menu::mainMenu() {
         }
 
         case 3:
+        {
+            minArr.clear();
+            readFromFile(minArr);
+            build_min_heap(minArr);
             minHeapMenu();
             break;
+        } 
         case 4:
+        {
+            maxArr.clear();
+            readFromFile(maxArr);
+            build_max_heap(maxArr);
             maxHeapMenu();
             break;
+        } 
         case 5:
             exit(0);
             break;
@@ -148,21 +158,7 @@ void Menu::mainMenu() {
     }
 }
 
-void Menu::saveAtFile(vector<Student>& arr) {
-    fstream dataFile;
-    dataFile.open("data.txt", ios::out);
-    for (int i = 0; i < arr.size(); i++) {
-        dataFile << arr[i].getID();
-        dataFile << endl;
-        dataFile << arr[i].getName();
-        dataFile << endl;
-        dataFile << arr[i].getGPA();
-        dataFile << endl;
-        dataFile << arr[i].getDept();
-        dataFile << endl;
-    }
-    dataFile.close();
-}
+
 
 void Menu::readFromFile(vector<Student>& arr) {
     fstream dataFile;
@@ -187,9 +183,7 @@ void Menu::readFromFile(vector<Student>& arr) {
 
 void Menu::minHeapMenu() {
     int n;
-    minArr.clear();
-    readFromFile(minArr);
-    build_min_heap(minArr);
+    
     while (true)
     {
         cout << "1. Add student\n";
@@ -205,7 +199,6 @@ void Menu::minHeapMenu() {
     case 1:
         addStud(minArr);
         MinHeapify(minArr);
-        saveAtFile(minArr);
         break;
     case 2:
         printAll(minArr, 1);
@@ -221,9 +214,7 @@ void Menu::minHeapMenu() {
 
 void Menu::maxHeapMenu() {
     int n;
-    maxArr.clear();
-    readFromFile(maxArr);
-    build_max_heap(maxArr);
+    
     while (true)
     {
         cout << "1. Add student\n";
@@ -239,7 +230,6 @@ void Menu::maxHeapMenu() {
     case 1:
         addStud(maxArr);
         MaxHeapify(maxArr);
-        saveAtFile(maxArr);
         break;
     case 2:
         printAll(maxArr, 0);
