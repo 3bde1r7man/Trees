@@ -3,8 +3,33 @@
 #include <vector>
 #include <fstream>
 #include <string>
+#include <algorithm>
 #include <map>
 using namespace std;
+
+struct Node{
+    Node* left;
+    Node* right;
+    int id ;
+    string name;
+    string department;
+    float GPA;
+};
+class BST{
+private:
+    Node* root = new Node;
+    int Size = 0 ;
+    Node* remove(Node* root, int id);
+    void inorder(Node* root);
+    void readFromFile();
+public:
+    BST();
+    void insert(int id, string name, string department, float GPA);
+    bool search(int id);
+    void removeStudent(int id);
+    void print();
+    void BSTMenu();
+};
 
 class Student{
 private:
@@ -41,7 +66,7 @@ public:
 	
 
     friend ostream& operator<<(ostream& out, Student& stud) {
-        out << "ID: " << stud.ID << ", Name: " << stud.Name << ", Department: " << stud.Dept << ", GPA: " << stud.GPA;
+        out << "[" << stud.ID << ", " << stud.Name << ", " << stud.Dept << ", " << stud.GPA << "]" << endl;
         return out;
     }
 };

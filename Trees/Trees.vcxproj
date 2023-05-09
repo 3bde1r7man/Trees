@@ -128,7 +128,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BST.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Trees.cpp" />
   </ItemGroup>

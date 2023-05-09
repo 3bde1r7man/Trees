@@ -2,14 +2,14 @@
 
 template <class T>
 void MaxHeapify(vector<T>& arr) {
-     int child = arr.size() - 1;
-     int parent = (arr.size() - 1) / 2;
-     while (arr[child] > arr[parent])
-     {
-         swap(arr[child], arr[parent]);
-         child /= 2;
-         parent /= 2;
-     }
+    int child = arr.size() - 1;
+    int parent = (arr.size() - 1) / 2;
+    while (arr[child] > arr[parent])
+    {
+        swap(arr[child], arr[parent]);
+        child /= 2;
+        parent /= 2;
+    }
 
 }
 
@@ -104,7 +104,7 @@ void heapSort(vector<T>& arr, bool flag) {
 }
 
 void Menu::mainMenu() {
-    while (true){
+    while (true) {
 
         int n;
         while (true)
@@ -121,18 +121,34 @@ void Menu::mainMenu() {
         }
         switch (n)
         {
-        case 2:{
-            StudentAVL *avl = new StudentAVL;
+        case 1:
+        {
+            BST a;
+            a.BSTMenu();
+            break;
+        }
+        case 2: {
+            StudentAVL* avl = new StudentAVL;
             avl->AVLMenu();
             break;
         }
 
         case 3:
+        {
+            minArr.clear();
+            readFromFile(minArr);
+            build_min_heap(minArr);
             minHeapMenu();
             break;
+        } 
         case 4:
+        {
+            maxArr.clear();
+            readFromFile(maxArr);
+            build_max_heap(maxArr);
             maxHeapMenu();
             break;
+        } 
         case 5:
             exit(0);
             break;
@@ -142,21 +158,7 @@ void Menu::mainMenu() {
     }
 }
 
-void Menu::saveAtFile(vector<Student>& arr) {
-    fstream dataFile;
-    dataFile.open("data.txt", ios::out);
-    for (int i = 0; i < arr.size(); i++) {
-        dataFile << arr[i].getID();
-        dataFile << endl;
-        dataFile << arr[i].getName();
-        dataFile << endl;
-        dataFile << arr[i].getGPA();
-        dataFile << endl;
-        dataFile << arr[i].getDept();
-        dataFile << endl;
-    }
-    dataFile.close();
-}
+
 
 void Menu::readFromFile(vector<Student>& arr) {
     fstream dataFile;
@@ -181,9 +183,7 @@ void Menu::readFromFile(vector<Student>& arr) {
 
 void Menu::minHeapMenu() {
     int n;
-    minArr.clear();
-    readFromFile(minArr);
-    build_min_heap(minArr);
+    
     while (true)
     {
         cout << "1. Add student\n";
@@ -199,7 +199,6 @@ void Menu::minHeapMenu() {
     case 1:
         addStud(minArr);
         MinHeapify(minArr);
-        saveAtFile(minArr);
         break;
     case 2:
         printAll(minArr, 1);
@@ -215,9 +214,7 @@ void Menu::minHeapMenu() {
 
 void Menu::maxHeapMenu() {
     int n;
-    maxArr.clear();
-    readFromFile(maxArr);
-    build_max_heap(maxArr);
+    
     while (true)
     {
         cout << "1. Add student\n";
@@ -233,7 +230,6 @@ void Menu::maxHeapMenu() {
     case 1:
         addStud(maxArr);
         MaxHeapify(maxArr);
-        saveAtFile(maxArr);
         break;
     case 2:
         printAll(maxArr, 0);
@@ -278,7 +274,7 @@ void Menu::printAll(vector<Student>& arr, bool sort) {
     }
 }
 
-StudentAVL::StudentAVL():root(nullptr),size(0){
+StudentAVL::StudentAVL() :root(nullptr), size(0) {
     fstream dataFile;
     string temp;
     int id;
@@ -294,12 +290,12 @@ StudentAVL::StudentAVL():root(nullptr),size(0){
         gpa = stof(temp);
         getline(dataFile, temp);
         dept = temp;
-        root = insert(root,id, gpa, name, dept);
+        root = insert(root, id, gpa, name, dept);
     }
     dataFile.close();
 }
 
-int StudentAVL::getHeight(StudentNode *node)
+int StudentAVL::getHeight(StudentNode* node)
 {
     if (node == nullptr) {
         return 0;
@@ -307,7 +303,7 @@ int StudentAVL::getHeight(StudentNode *node)
     return node->height;
 }
 
-int StudentAVL::getBalanceFactor(StudentNode *node)
+int StudentAVL::getBalanceFactor(StudentNode* node)
 {
     if (node == nullptr) {
         return 0;
@@ -320,9 +316,9 @@ int StudentAVL::AVLSize()
     return size;
 }
 
-StudentNode* StudentAVL::insert(StudentNode* root,int id,float GPA,string name,string dp)
+StudentNode* StudentAVL::insert(StudentNode* root, int id, float GPA, string name, string dp)
 {
-        if (root == nullptr) {
+    if (root == nullptr) {
         StudentNode* newNode = new StudentNode;
         newNode->id = id;
         newNode->GPA = GPA;
@@ -336,7 +332,8 @@ StudentNode* StudentAVL::insert(StudentNode* root,int id,float GPA,string name,s
     }
     if (id < root->id) {
         root->left = insert(root->left, id, GPA, name, dp);
-    } else {
+    }
+    else {
         root->right = insert(root->right, id, GPA, name, dp);
     }
     root->height = 1 + std::max(getHeight(root->left), getHeight(root->right));
@@ -358,7 +355,7 @@ StudentNode* StudentAVL::insert(StudentNode* root,int id,float GPA,string name,s
     return root;
 }
 
-StudentNode* StudentAVL::rotateRight(StudentNode *node)
+StudentNode* StudentAVL::rotateRight(StudentNode* node)
 {
     StudentNode* newRoot = node->left;
     node->left = newRoot->right;
@@ -368,7 +365,7 @@ StudentNode* StudentAVL::rotateRight(StudentNode *node)
     return newRoot;
 }
 
-StudentNode* StudentAVL::rotateLeft(StudentNode *node)
+StudentNode* StudentAVL::rotateLeft(StudentNode* node)
 {
     StudentNode* newRoot = node->right;
     node->right = newRoot->left;
@@ -392,21 +389,26 @@ StudentNode* StudentAVL::deleteNode(StudentNode* root, int id) {
     }
     if (id < root->id) {
         root->left = deleteNode(root->left, id);
-    } else if (id > root->id) {
+    }
+    else if (id > root->id) {
         root->right = deleteNode(root->right, id);
-    } else {
+    }
+    else {
         if (root->left == nullptr && root->right == nullptr) {
             delete root;
             root = nullptr;
-        } else if (root->left == nullptr) {
+        }
+        else if (root->left == nullptr) {
             StudentNode* temp = root;
             root = root->right;
             delete temp;
-        } else if (root->right == nullptr) {
+        }
+        else if (root->right == nullptr) {
             StudentNode* temp = root;
             root = root->left;
             delete temp;
-        } else {
+        }
+        else {
             StudentNode* temp = findMin(root->right);
             root->id = temp->id;
             root->right = deleteNode(root->right, temp->id);
@@ -434,7 +436,7 @@ StudentNode* StudentAVL::deleteNode(StudentNode* root, int id) {
     return root;
 }
 
-StudentNode *StudentAVL::search(StudentNode *root, int id)
+StudentNode* StudentAVL::search(StudentNode* root, int id)
 {
     if (root == nullptr) {
         return nullptr; // id not found
@@ -444,22 +446,23 @@ StudentNode *StudentAVL::search(StudentNode *root, int id)
     }
     if (id < root->id) {
         return search(root->left, id); // search in left subtree
-    } else {
+    }
+    else {
         return search(root->right, id); // search in right subtree
     }
 }
 
-void StudentAVL::inorder(StudentNode *root)
+void StudentAVL::inorder(StudentNode* root)
 {
-        if (root == nullptr) {
-            return ;
-        }
-        inorder(root->left);
-        cout<<"["<<root->id<<","<<root->name<<","<<root->GPA<<","<<root->dp<<"]"<<endl;
-        inorder(root->right);
+    if (root == nullptr) {
+        return;
+    }
+    inorder(root->left);
+    cout << "[" << root->id << "," << root->name << "," << root->GPA << "," << root->dp << "]" << endl;
+    inorder(root->right);
 }
 
-void StudentAVL::saveInFile(StudentNode *root, bool& firstTime, fstream& dataFile) {
+void StudentAVL::saveInFile(StudentNode* root, bool& firstTime, fstream& dataFile) {
     if (firstTime) {
         dataFile.open("data.txt", ios::out);
         firstTime = false;
@@ -493,11 +496,12 @@ void StudentAVL::addStudent()
     cin >> gpa;
     cout << "Department: ";
     cin >> dept;
-    StudentNode *student = search(root, id);
-    if(student==nullptr){
-        insert(root,id,gpa,name,dept);
+    StudentNode* student = search(root, id);
+    if (student == nullptr) {
+        insert(root, id, gpa, name, dept);
         cout << "The student is added.\n";
-    }else{
+    }
+    else {
         cout << "ID already in use";
     }
 
@@ -508,16 +512,21 @@ void StudentAVL::removeStudent()
     int id;
     cout << "ID: ";
     cin >> id;
-    StudentNode *student = search(root, id);
-    if(student==nullptr){
+    StudentNode* student = search(root, id);
+    if (student == nullptr) {
         cout << "Student Not Found!.." << endl;
+<<<<<<< HEAD
     }else{
         departments[student->dp]--;
         size--;
+=======
+    }
+    else {
+>>>>>>> d3dd0b89e441b995d067f47ab77c5e9609606f22
         root = deleteNode(root, id);
         cout << "Student Deleted Successfully";
     }
-    
+
 }
 
 void StudentAVL::searchStudent()
@@ -525,17 +534,22 @@ void StudentAVL::searchStudent()
     int id;
     cout << "ID: ";
     cin >> id;
-    StudentNode *student = search(root, id);
-    if(student == nullptr){
+    StudentNode* student = search(root, id);
+    if (student == nullptr) {
         cout << "Student Not Found!.." << endl;
-    }else{
-        cout<<"["<<student->id<<", "<<student->name<<", "<<student->dp<<", "<<student->GPA<<"]"<<endl;
+    }
+    else {
+        cout << "[" << student->id << ", " << student->name << ", " << student->dp << ", " << student->GPA << "]" << endl;
     }
 }
 
 void StudentAVL::printStudents()
 {
+<<<<<<< HEAD
     cout << "Print " << AVLSize()<<" Students."<<endl;
+=======
+    cout << "Size of Students is: " << AVLSize() << endl;
+>>>>>>> d3dd0b89e441b995d067f47ab77c5e9609606f22
     print();
     cout << "Students per Departments:" << endl;    
     for (map<string, int>::iterator it = departments.begin(); it != departments.end(); it++)
@@ -547,9 +561,9 @@ void StudentAVL::printStudents()
 
 void StudentAVL::AVLMenu()
 {
-    while (true){
-        int userIn=0;
-        while(userIn>5 || userIn<1){
+    while (true) {
+        int userIn = 0;
+        while (userIn > 5 || userIn < 1) {
             cout << "1-Add student\n";
             cout << "2-Remove student\n";
             cout << "3-Search student\n";
@@ -572,14 +586,275 @@ void StudentAVL::AVLMenu()
         case 4:
             printStudents();
             break;
+<<<<<<< HEAD
         case 5:{
+=======
+        case 5: {
+            bool firstTime = true;
+            fstream dataFile;
+            saveInFile(root, firstTime, dataFile);
+            dataFile.close();
+>>>>>>> d3dd0b89e441b995d067f47ab77c5e9609606f22
             return;
-            }
+        }
         default:
-            cout << "Enter Valid Input!.."<<endl;
+            cout << "Enter Valid Input!.." << endl;
             return;
         }
     }
 }
 
+Node* BST::remove(Node* root, int id)
+{
+    if (root == nullptr)
+    {
+        return nullptr;
+    }
+    if (root->id == id) {
+
+        if (root->left == nullptr && root->right == nullptr)
+        {
+            delete root;
+            return nullptr;
+        }
+        else if (root->left == nullptr)
+        {
+            Node* right_child = root->right;
+            delete root;
+            return right_child;
+        }
+        else if (root->right == nullptr)
+        {
+            Node* left_child = root->left;
+            delete root;
+            return left_child;
+        }
+        else
+        {
+            Node* replacement = root->left;
+            while (replacement->right != nullptr) {
+                replacement = replacement->right;
+            }
+            root->id = replacement->id;
+            root->name = replacement->name;
+            root->department = replacement->department;
+            root->GPA = replacement->GPA;
+            root->left = remove(root->left, replacement->id);
+            return root;
+        }
+    }
+    else if (id < root->id)
+    {
+        root->left = remove(root->left, id);
+        return root;
+    }
+    else
+    {
+        root->right = remove(root->right, id);
+        return root;
+    }
+}
+void BST::inorder(Node* root)
+{
+    if (root == nullptr) {
+        return;
+    }
+    inorder(root->left);
+    cout << "[" << root->id << ", " << root->name << ", " << root->department << ", " << root->GPA << "]" << endl;
+    inorder(root->right);
+}
+
+void BST::readFromFile() {
+    fstream dataFile;
+    string temp;
+    int id;
+    float gpa;
+    string name, dept;
+    dataFile.open("data.txt", ios::in);
+    while (!dataFile.eof() && dataFile.peek() != EOF) {
+        getline(dataFile, temp);
+        id = stoi(temp);
+        getline(dataFile, temp);
+        name = temp;
+        getline(dataFile, temp);
+        gpa = stof(temp);
+        getline(dataFile, temp);
+        dept = temp;
+        this->insert(id, name, dept, gpa);
+    }
+    dataFile.close();
+}
+BST::BST()
+{
+    root->left = nullptr;
+    root->right = nullptr;
+    root->id = -1;
+}
+void BST::insert(int id, string name, string department, float GPA)
+{
+    if (root->id == -1)
+    {
+        root->id = id;
+        root->name = name;
+        root->department = department;
+        root->GPA = GPA;
+        Size++;
+        return;
+    }
+    else
+    {
+        Node* node = new Node;
+        Node* cur = root;
+        int len = Size;
+        for (int i = 0; i < len; i++)
+        {
+            if (cur->left == nullptr && id <= cur->id)
+            {
+                node->id = id;
+                node->name = name;
+                node->department = department;
+                node->GPA = GPA;
+                node->right = nullptr;
+                node->left = nullptr;
+                cur->left = node;
+                Size++;
+                return;
+            }
+            else if (cur->right == nullptr && id > cur->id)
+            {
+                node->id = id;
+                node->name = name;
+                node->department = department;
+                node->GPA = GPA;
+                node->right = nullptr;
+                node->left = nullptr;
+                cur->right = node;
+                Size++;
+                return;
+            }
+            else if (cur->left != nullptr && id <= cur->id)
+            {
+                cur = cur->left;
+                continue;
+            }
+            else if (cur->right != nullptr && id > cur->id)
+            {
+                cur = cur->right;
+                continue;
+            }
+        }
+    }
+}
+bool BST::search(int id)
+{
+    Node* cur = root;
+    for (int i = 0; i < Size; i++)
+    {
+        if (root->id == id)
+        {
+            cout << "Student Is Found" << endl;
+            cout << "[" << root->id << ", " << root->name << ", " << root->department << ", " << root->GPA << "]" << endl;
+            return true;
+        }
+        else
+        {
+            if (cur->id == id)
+            {
+                cout << "Student Is Found" << endl;
+                cout << "[" << cur->id << ", " << cur->name << ", " << cur->department << ", " << cur->GPA << "]" << endl;
+                return true;
+            }
+            else if (cur->left != nullptr && id <= cur->id)
+            {
+                cur = cur->left;
+                continue;
+            }
+            else if (cur->right != nullptr && id > cur->id)
+            {
+                cur = cur->right;
+                continue;
+            }
+        }
+    }
+    cout << "Student Is Not Found" << endl;
+    return false;
+}
+void BST::removeStudent(int id)
+{
+    remove(root, id);
+
+}
+void BST::print()
+{
+    inorder(root);
+}
+
+void BST::BSTMenu() {
+    BST a;
+    a.readFromFile();
+    while (true)
+    {
+        int choice = 0;
+        cout << "1. Add student\n2. Remove student\n3. Search student\n4. Print All\n5. Return to main menu\n";
+        cin >> choice;
+        if (choice == 1)
+        {
+            int id;
+            string name;
+            string department;
+            float GPA;
+            cout << "please enter the id : ";
+            cin >> id;
+            while (id > 100 || id <= 0)
+            {
+                cout << "please enter the id in range [0-100] : ";
+                cin >> id;
+            }
+            while (a.search(id))
+            {
+                cout << " the id is already exist choose another id\n";
+                cin >> id;
+            }
+            cout << "please enter the name : ";
+            cin >> name;
+            cout << "please enter the department : ";
+            cin >> department;
+            cout << "please enter the GPA : ";
+            cin >> GPA;
+            while (GPA < 0 || GPA > 4)
+            {
+                cout << "Please enter appropriate GPA : ";
+                cin >> GPA;
+            }
+            a.insert(id, name, department, GPA);
+        }
+        else if (choice == 2)
+        {
+            int id;
+            cout << "please enter the id : ";
+            cin >> id;
+            if (!a.search(id))
+            {
+                continue;
+            }
+            a.removeStudent(id);
+        }
+        else if (choice == 3)
+        {
+            int id;
+            cout << "please enter the id : ";
+            cin >> id;
+            a.search(id);
+        }
+        else if (choice == 4)
+        {
+            a.print();
+        }
+        else if(choice == 5)
+        {
+            return;
+        }
+        
+    }
+}
 
