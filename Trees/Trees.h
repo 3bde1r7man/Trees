@@ -44,6 +44,14 @@ public:
 		return GPA > other.GPA;
 	}
 
+    bool operator==(Student& other) {
+        return ID == other.ID;
+    }
+
+    bool operator==(int id) {
+        return ID == id;
+    }
+
     bool operator<(Student& other) {
         return GPA < other.GPA;
     }
