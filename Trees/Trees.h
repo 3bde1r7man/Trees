@@ -19,6 +19,7 @@ class BST{
 private:
     Node* root = new Node;
     int Size = 0 ;
+    map<string, int> departments;
     Node* remove(Node* root, int id);
     void inorder(Node* root);
     void readFromFile();

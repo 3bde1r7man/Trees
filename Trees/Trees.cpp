@@ -593,7 +593,7 @@ Node* BST::remove(Node* root, int id)
         return nullptr;
     }
     if (root->id == id) {
-
+        departments[root->department]--;
         if (root->left == nullptr && root->right == nullptr)
         {
             delete root;
@@ -674,6 +674,7 @@ BST::BST()
 }
 void BST::insert(int id, string name, string department, float GPA)
 {
+    departments[department]++;
     if (root->id == -1)
     {
         root->id = id;
@@ -769,6 +770,12 @@ void BST::removeStudent(int id)
 void BST::print()
 {
     inorder(root);
+    cout << "Students per Departments:" << endl;
+    for (map<string, int>::iterator it = departments.begin(); it != departments.end(); it++)
+    {
+        cout << it->first << " " << it->second << " Students." << endl;
+    }
+
 }
 
 void BST::BSTMenu() {
