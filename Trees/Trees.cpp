@@ -247,7 +247,7 @@ void Menu::addStud(vector<Student>& arr) {
     int id;
     float gpa;
     string name, dept;
-
+    
     cout << "Id: ";
     cin >> id;
     cout << "Name: ";
@@ -256,8 +256,16 @@ void Menu::addStud(vector<Student>& arr) {
     cin >> gpa;
     cout << "Department: ";
     cin >> dept;
-    arr.push_back(Student(id, gpa, name, dept));
-    cout << "The student is added.\n";
+
+    if (!count(arr.begin(), arr.end(), id)) {
+        arr.push_back(Student(id, gpa, name, dept));
+        cout << "The student is added.\n";
+    }
+    else
+    {
+        cout << "ID already in use\n";
+    }
+    
 }
 
 void Menu::printAll(vector<Student>& arr, bool sort) {
@@ -502,7 +510,7 @@ void StudentAVL::addStudent()
         cout << "The student is added.\n";
     }
     else {
-        cout << "ID already in use";
+        cout << "ID already in use\n";
     }
 
 }
