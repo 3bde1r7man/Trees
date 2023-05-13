@@ -256,7 +256,13 @@ void Menu::addStud(vector<Student>& arr) {
     cin >> gpa;
     cout << "Department: ";
     cin >> dept;
-
+    transform(dept.begin(), dept.end(), dept.begin(), ::toupper);
+    while (dept.compare("CS") != 0 && dept.compare("AI") != 0 && dept.compare("IS") != 0 && dept.compare("IT") != 0 && dept.compare("DS"))
+    {
+        cout << "Please enter appropriate department (CS,IT,IS,AI,DS) : ";
+        cin >> dept;
+        transform(dept.begin(), dept.end(), dept.begin(), ::toupper);
+    }
     if (!count(arr.begin(), arr.end(), id)) {
         arr.push_back(Student(id, gpa, name, dept));
         cout << "The student is added.\n";
@@ -504,6 +510,13 @@ void StudentAVL::addStudent()
     cin >> gpa;
     cout << "Department: ";
     cin >> dept;
+    transform(dept.begin(), dept.end(), dept.begin(), ::toupper);
+    while (dept.compare("CS") != 0 && dept.compare("AI") != 0 && dept.compare("IS") != 0 && dept.compare("IT") != 0 && dept.compare("DS"))
+    {
+        cout << "Please enter appropriate department (CS,IT,IS,AI,DS) : ";
+        cin >> dept;
+        transform(dept.begin(), dept.end(), dept.begin(), ::toupper);
+    }
     StudentNode* student = search(root, id);
     if (student == nullptr) {
         insert(root, id, gpa, name, dept);
@@ -816,6 +829,13 @@ void BST::BSTMenu() {
             cin >> name;
             cout << "please enter the department : ";
             cin >> department;
+            transform(department.begin(), department.end(), department.begin(), ::toupper);
+            while (department.compare("CS") != 0 && department.compare("AI") != 0 && department.compare("IS") != 0 && department.compare("IT") != 0 && department.compare("DS"))
+            {
+                cout << "Please enter appropriate department (CS,IT,IS,AI,DS) : ";
+                cin >> department;
+                transform(department.begin(), department.end(), department.begin(), ::toupper);
+            }
             cout << "please enter the GPA : ";
             cin >> GPA;
             while (GPA < 0 || GPA > 4)
